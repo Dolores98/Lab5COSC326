@@ -92,7 +92,7 @@ public class TeamThreeStar implements Player {
 		{
 			int[] move = possibleMoves.get(i);
 			int moveScore = move[3] + move[6];
-			if(moveScore > bestMoveScore)
+			if(moveScore >= bestMoveScore)
 			{
 				bestMove = move;
 				bestMoveScore = moveScore;
@@ -103,6 +103,7 @@ public class TeamThreeStar implements Player {
 		{
 			move[i] = bestMove[i];
 		}
+		move[2] += 1;
 		return move;
 	}
 }
