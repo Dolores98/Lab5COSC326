@@ -15,7 +15,9 @@ public class TeamThreeStar implements Player {
 		int[] theMove = new int[3];
 		
 		ArrayList<int[]> possibleMoves = new ArrayList<int[]>();
+		
 		possibleMoves = getPossibleMoves(board);
+		theMove = heuristic(possibleMoves);
 		return theMove;
 	}
 	
@@ -83,7 +85,25 @@ public class TeamThreeStar implements Player {
 	
 	private static int[] heuristic(ArrayList<int[]> possibleMoves)
 	{
-		return null;
+		int[] bestMove = new int[8];
+		int bestMoveScore = 0;
+		
+		for(int i = 0; i < possibleMoves.size(); i ++)
+		{
+			int[] move = possibleMoves.get(i);
+			int moveScore = move[3] + move[6];
+			if(moveScore > bestMoveScore)
+			{
+				bestMove = move;
+				bestMoveScore = moveScore;
+			}
+		}
+		int[] move = new int[3];
+		for(int i = 0; i < 3; i++)
+		{
+			move[i] = bestMove[i];
+		}
+		return move;
 	}
 }
 
