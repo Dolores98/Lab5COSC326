@@ -23,8 +23,10 @@ public class SequenciumApp implements Player {
 		return theMove;
 	}
 	
-	public static ArrayList<int[]> getPossibleMoves(int[][] board) // rowIndex, colIndex, Highest Possible Value, Highest Enemy Value, AVG friendly value, AVG enemy value, number of enemy tiles, number of friendly tiles
-	{															   // 0,        1,        2,                      3,                   4,                  5,               6,                     7,                          
+	public static ArrayList<int[]> getPossibleMoves(int[][] board) 
+	// rowIndex, colIndex, Highest Possible Value, Highest Enemy Value, AVG friendly value, AVG enemy value, number of enemy tiles, number of friendly tiles
+	// 0,        1,        2,                      3,                   4,                  5,               6,                     7,                       
+	{															   
 		Utilities utils = new Utilities();
 		ArrayList<int[]> possibleMoves = new ArrayList<int[]>();
 		ArrayList<int[]> neighbours = new ArrayList<int[]>();
