@@ -23,7 +23,6 @@ public class TeamThreeStar implements Player {
 	// rowIndex, colIndex, Highest Possible Value, Highest Enemy Value, AVG friendly value, AVG enemy value, number of enemy tiles, number of friendly tiles
 	// 0,        1,        2,                      3,                   4,                  5,               6,                     7,                       
 	{															   
-		Utilities utils = new Utilities();
 		ArrayList<int[]> possibleMoves = new ArrayList<int[]>();
 		ArrayList<int[]> neighbours = new ArrayList<int[]>();
 		
@@ -43,7 +42,7 @@ public class TeamThreeStar implements Player {
 					int friendlyCount = 0;
 					int enemyCount = 0;
 					
-					neighbours = utils.neighbours(i, j, boardRows, boardCols);
+					neighbours = Utilities.neighbours(i, j, boardRows, boardCols);
 					for(int k = 0; k < neighbours.size(); k ++)
 					{
 						int[] coordinate = neighbours.get(k);
