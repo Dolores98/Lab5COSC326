@@ -53,7 +53,9 @@ public class SequenciumApp implements Player {
 						int[] coordinate = neighbours.get(k);
 						
 						int value = board[coordinate[0]][coordinate[1]];
-						
+
+                                                // This is a comment - John
+                                                
 						if(value > 0)
 						{
 							friendlyCount += 1;
