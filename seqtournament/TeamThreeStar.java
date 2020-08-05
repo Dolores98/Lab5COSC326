@@ -66,8 +66,12 @@ public class TeamThreeStar implements Player {
 					
 					if(highestValue > 0)
 					{
+						
 						avgFriendly = avgFriendly/friendlyCount;
-						avgEnemy = avgEnemy/enemyCount;
+						if(enemyCount > 0)
+						{
+							avgEnemy = avgEnemy/enemyCount;
+						}
 						int[] move = {i, j, highestValue, highestEnemy, avgFriendly, avgEnemy, friendlyCount, enemyCount};
 						possibleMoves.add(move);
 					}
