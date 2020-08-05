@@ -1,12 +1,11 @@
 package seqtournament;
 
 import sequencium.*;
-import java.util.*;
 
-public class SequenciumApp implements Player {
+public class SequenciumApp {
 	public static void main(String []args)
 	{
-		Game game = new Game(new RandomPlayer(), new SequenciumApp());
+		Game game = new Game(new RandomPlayer(), new TeamThreeStar());
 	}
 	
 }
