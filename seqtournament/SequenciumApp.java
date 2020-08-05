@@ -1,3 +1,5 @@
+package seqtournament;
+
 import sequencium.*;
 import java.util.*;
 
@@ -79,7 +81,7 @@ public class SequenciumApp implements Player {
 	
 	public static int[] heuristic(ArrayList<int[]> possibleMoves)
 	{
-		
+		return null;
 	}
 }
 
