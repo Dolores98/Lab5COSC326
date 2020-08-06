@@ -7,14 +7,15 @@ public class TeamThreeStar implements Player {
 
 	private boolean initalLoop = true;
 	private int count = 0;
+	private final boolean VERBOSE = false;
 
 	public String getName() {
 		return "Team Three Star";
 	}
 
 	public int[] initialMove(int[][] board) {
-		if(board[0][0] == 1){
-		
+		if (board[0][0] == 1) {
+
 			if (count == 0) {
 				int initialMove[] = { 1, 1, 2 };
 				count++;
@@ -24,7 +25,7 @@ public class TeamThreeStar implements Player {
 				initalLoop = false;
 				return initialMove;
 			}
-		}else{
+		} else {
 			if (count == 0) {
 				int initialMove[] = { 4, 4, 2 };
 				count++;
@@ -37,12 +38,15 @@ public class TeamThreeStar implements Player {
 		}
 	}
 
-	public int[] makeMove(int[][] board) {
-		for (int[] is : board) {
-			for (int iss :is){
-				System.out.print(iss);
+	public int[] makeMove(int[][] board) 
+	{
+		if (VERBOSE) {
+			for (int[] is : board) {
+				for (int iss : is) {
+					System.out.print(iss);
+				}
+				System.out.println();
 			}
-			System.out.println();
 		}
 
 		if (initalLoop) {
