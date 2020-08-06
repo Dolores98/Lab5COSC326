@@ -43,7 +43,6 @@ public class TeamThreeStar implements Player {
 				System.out.print(iss);
 			}
 			System.out.println();
-			System.out.println("---");
 		}
 
 		if (initalLoop) {
@@ -126,7 +125,7 @@ public class TeamThreeStar implements Player {
 		for (int i = 0; i < possibleMoves.size(); i++) {
 			int[] move = possibleMoves.get(i);
 			int moveScore = move[3] + move[6];
-			if (moveScore >= bestMoveScore) {
+			if (moveScore <= bestMoveScore) {
 				bestMove = move;
 				bestMoveScore = moveScore;
 			}
