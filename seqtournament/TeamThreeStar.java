@@ -13,25 +13,39 @@ public class TeamThreeStar implements Player {
 	}
 
 	public int[] initialMove(int[][] board) {
+		if(board[0][0] == 1){
+		
+			if (count == 0) {
+				int initialMove[] = { 1, 1, 2 };
+				count++;
+				return initialMove;
+			} else {
+				int initialMove[] = { 2, 2, 3 };
+				initalLoop = false;
+				return initialMove;
+			}
+		}else{
+			if (count == 0) {
+				int initialMove[] = { 4, 4, 2 };
+				count++;
+				return initialMove;
+			} else {
+				int initialMove[] = { 3, 3, 3 };
+				initalLoop = false;
+				return initialMove;
+			}
+		}
+	}
+
+	public int[] makeMove(int[][] board) {
 		for (int[] is : board) {
 			for (int iss :is){
 				System.out.print(iss);
 			}
 			System.out.println();
+			System.out.println("---");
 		}
 
-		if (count == 0) {
-			int initialMove[] = { 1, 1, 2 };
-			count++;
-			return initialMove;
-		} else {
-			int initialMove[] = { 2, 2, 3 };
-			initalLoop = false;
-			return initialMove;
-		}
-	}
-
-	public int[] makeMove(int[][] board) {
 		if (initalLoop) {
 			int[] initialMoves = new int[3];
 			initialMoves = initialMove(board);
