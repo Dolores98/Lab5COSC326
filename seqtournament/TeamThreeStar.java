@@ -7,7 +7,6 @@ public class TeamThreeStar implements Player {
 
 	private boolean initalLoop = true;
 	private boolean player1 = true;
-	private boolean checkDiag = true;
 	private int count = 0;
 	private int heuristicSwitch;
 
@@ -33,7 +32,6 @@ public class TeamThreeStar implements Player {
 			} else {
 				int initialMove[] = { 2, 2, 3 };
 				initalLoop = false;
-				checkDiag = true;
 				return initialMove;
 			}
 		} else {
@@ -45,7 +43,6 @@ public class TeamThreeStar implements Player {
 			} else {
 				int initialMove[] = { 3, 3, 3 };
 				initalLoop = false;
-				checkDiag = true;
 				return initialMove;
 			}
 		}
@@ -90,11 +87,17 @@ public class TeamThreeStar implements Player {
 
 			possibleMoves = getPossibleMoves(board);
 			switch (heuristicSwitch) {
+				case 1:
+					theMove = heuristic(possibleMoves);
+					break;
 				case 2:
 					theMove = heuristic2(possibleMoves);
 					break;
 				case 3:
 					theMove = heuristic3(possibleMoves);
+					break;
+				case 4:
+					theMove = heuristic4(possibleMoves);
 					break;
 				default:
 					theMove = heuristic(possibleMoves);
@@ -163,6 +166,26 @@ public class TeamThreeStar implements Player {
 			}
 		}
 		return possibleMoves;
+	}
+
+	private static int[] heuristic4(ArrayList<int[]> possibleMoves) {
+		int[] bestMove = new int[8];
+		int bestMoveScore = 0;
+
+		for (int i = 0; i < possibleMoves.size(); i++) {
+			int[] move = possibleMoves.get(i);
+			int moveScore = move[3] + move[6];
+			if (moveScore <= bestMoveScore) {
+				bestMove = move;
+				bestMoveScore = moveScore;
+			}
+		}
+		int[] move = new int[3];
+		for (int i = 0; i < 3; i++) {
+			move[i] = bestMove[i];
+		}
+		move[2] += 1;
+		return move;
 	}
 
 	private static int[] heuristic3(ArrayList<int[]> possibleMoves) {
