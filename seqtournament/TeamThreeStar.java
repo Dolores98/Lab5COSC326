@@ -79,16 +79,18 @@ public class TeamThreeStar implements Player {
 			ArrayList<int[]> possibleMoves = new ArrayList<int[]>();
 
 			possibleMoves = getPossibleMoves(board);
+			System.out.println("pos move: " + possibleMoves.size() + "\n");
 			theMove = heuristic(possibleMoves);
 			return theMove;
 		}
 	}
 
 	private static ArrayList<int[]> getPossibleMoves(int[][] board)
-	// 0 rowIndex, 1 colIndex, 2 Highest Possible Value, 3 Highest Enemy Value, 
-	// 4 AVG friendly value, 5 AVG enemy value, 6 number of enemy tiles, 
-	// 7 number of friendly tiles, 8 connections(how many connections move has of enemy)
-	
+	// 0 rowIndex, 1 colIndex, 2 Highest Possible Value, 3 Highest Enemy Value,
+	// 4 AVG friendly value, 5 AVG enemy value, 6 number of enemy tiles,
+	// 7 number of friendly tiles, 8 number of connections(connection values of
+	// enemy/player)
+
 	{
 		ArrayList<int[]> possibleMoves = new ArrayList<int[]>();
 		ArrayList<int[]> neighbours = new ArrayList<int[]>();
@@ -144,6 +146,26 @@ public class TeamThreeStar implements Player {
 	}
 
 	private static int[] heuristic(ArrayList<int[]> possibleMoves) {
+		int[] bestMove = new int[8];
+		int bestMoveScore = 0;
+
+		for (int i = 0; i < possibleMoves.size(); i++) {
+			int[] move = possibleMoves.get(i);
+			int moveScore = move[3] + move[6];
+			if (moveScore <= bestMoveScore) {
+				bestMove = move;
+				bestMoveScore = moveScore;
+			}
+		}
+		int[] move = new int[3];
+		for (int i = 0; i < 3; i++) {
+			move[i] = bestMove[i];
+		}
+		move[2] += 1;
+		return move;
+	}
+
+	private static int[] heuristic2(ArrayList<int[]> possibleMoves) {
 		int[] bestMove = new int[8];
 		int bestMoveScore = 0;
 
