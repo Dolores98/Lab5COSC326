@@ -87,9 +87,6 @@ public class TeamThreeStar implements Player {
 
 			possibleMoves = getPossibleMoves(board);
 			switch (heuristicSwitch) {
-				case 1:
-					theMove = heuristic(possibleMoves);
-					break;
 				case 2:
 					theMove = heuristic2(possibleMoves);
 					break;
