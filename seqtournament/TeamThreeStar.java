@@ -6,6 +6,8 @@ import java.util.*;
 public class TeamThreeStar implements Player {
 
 	private boolean initalLoop = true;
+	private boolean player1 = true;
+	private boolean checkDiag = true;
 	private int count = 0;
 
 	public String getName() {
@@ -13,8 +15,8 @@ public class TeamThreeStar implements Player {
 	}
 
 	public int[] initialMove(int[][] board) {
-		if(board[0][0] == 1){
-		
+		if (board[0][0] == 1) {
+			player1 = true;
 			if (count == 0) {
 				int initialMove[] = { 1, 1, 2 };
 				count++;
@@ -22,9 +24,11 @@ public class TeamThreeStar implements Player {
 			} else {
 				int initialMove[] = { 2, 2, 3 };
 				initalLoop = false;
+				checkDiag = true;
 				return initialMove;
 			}
-		}else{
+		} else {
+			player1 = false;
 			if (count == 0) {
 				int initialMove[] = { 4, 4, 2 };
 				count++;
@@ -32,14 +36,30 @@ public class TeamThreeStar implements Player {
 			} else {
 				int initialMove[] = { 3, 3, 3 };
 				initalLoop = false;
+				checkDiag = true;
 				return initialMove;
 			}
 		}
 	}
 
+	public int[] diagonalCheck(int[][] board) {
+		if (board[3][3] == 0 && player1) {
+			int nextMove[] = { 3, 3, 4 };
+			checkDiag = false;
+			return nextMove;
+		} else if (board[2][2] == 0 && !player1) {
+			int nextMove[] = { 2, 2, 4 };
+			checkDiag = false;
+			return nextMove;
+		}
+		int nextMove[] = { 0, 0, 0 };
+		checkDiag = false;
+		return nextMove;
+	}
+
 	public int[] makeMove(int[][] board) {
 		for (int[] is : board) {
-			for (int iss :is){
+			for (int iss : is) {
 				System.out.print(iss);
 			}
 			System.out.println();
@@ -49,6 +69,10 @@ public class TeamThreeStar implements Player {
 			int[] initialMoves = new int[3];
 			initialMoves = initialMove(board);
 			return initialMoves;
+		} else if (checkDiag) {
+			int[] nextMove = new int[3];
+			nextMove = diagonalCheck(board);
+			return nextMove;
 		} else {
 			int[] theMove = new int[3];
 
@@ -61,9 +85,10 @@ public class TeamThreeStar implements Player {
 	}
 
 	private static ArrayList<int[]> getPossibleMoves(int[][] board)
-	// rowIndex, colIndex, Highest Possible Value, Highest Enemy Value, AVG friendly
-	// value, AVG enemy value, number of enemy tiles, number of friendly tiles
-	// 0, 1, 2, 3, 4, 5, 6, 7,
+	// 0 rowIndex, 1 colIndex, 2 Highest Possible Value, 3 Highest Enemy Value, 
+	// 4 AVG friendly value, 5 AVG enemy value, 6 number of enemy tiles, 
+	// 7 number of friendly tiles, 8 connections(how many connections move has of enemy)
+	
 	{
 		ArrayList<int[]> possibleMoves = new ArrayList<int[]>();
 		ArrayList<int[]> neighbours = new ArrayList<int[]>();
