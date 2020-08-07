@@ -7,7 +7,6 @@ public class TeamThreeStar implements Player {
 
 	private boolean initalLoop = true;
 	private boolean player1 = true;
-	private boolean checkDiag = true;
 	private int count = 0;
 	private int heuristicSwitch;
 
@@ -33,7 +32,6 @@ public class TeamThreeStar implements Player {
 			} else {
 				int initialMove[] = { 2, 2, 3 };
 				initalLoop = false;
-				checkDiag = true;
 				return initialMove;
 			}
 		} else {
@@ -45,7 +43,6 @@ public class TeamThreeStar implements Player {
 			} else {
 				int initialMove[] = { 3, 3, 3 };
 				initalLoop = false;
-				checkDiag = true;
 				return initialMove;
 			}
 		}
@@ -171,8 +168,13 @@ public class TeamThreeStar implements Player {
 
 		for (int i = 0; i < possibleMoves.size(); i++) {
 			int[] move = possibleMoves.get(i);
-			int moveScore = move[3] + move[6];
-			if (moveScore <= bestMoveScore) {
+			int moveScore = move[3] + move[6] - move[7];
+			if(move[6] == 0)
+			{
+				moveScore = move[7];
+			}
+			
+			if (moveScore <= bestMoveScore && move[6] < 6) {
 				bestMove = move;
 				bestMoveScore = moveScore;
 			}
