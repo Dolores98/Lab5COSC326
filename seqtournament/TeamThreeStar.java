@@ -9,6 +9,15 @@ public class TeamThreeStar implements Player {
 	private boolean player1 = true;
 	private boolean checkDiag = true;
 	private int count = 0;
+	private int heuristicSwitch;
+
+	public TeamThreeStar() {
+		this.heuristicSwitch = 0;
+	}
+
+	public TeamThreeStar(int heuristicSwitch) {
+		this.heuristicSwitch = heuristicSwitch;
+	}
 
 	public String getName() {
 		return "Team Three Star";
@@ -79,8 +88,18 @@ public class TeamThreeStar implements Player {
 			ArrayList<int[]> possibleMoves = new ArrayList<int[]>();
 
 			possibleMoves = getPossibleMoves(board);
-			System.out.println("pos move: " + possibleMoves.size() + "\n");
-			theMove = heuristic(possibleMoves);
+			switch (heuristicSwitch) {
+				case 0:
+					theMove = heuristic(possibleMoves);
+					break;
+				case 1:
+					theMove = heuristic2(possibleMoves);
+					break;
+				default:
+					theMove = heuristic(possibleMoves);
+					break;
+			}
+
 			return theMove;
 		}
 	}
@@ -88,8 +107,8 @@ public class TeamThreeStar implements Player {
 	private static ArrayList<int[]> getPossibleMoves(int[][] board)
 	// 0 rowIndex, 1 colIndex, 2 Highest Possible Value, 3 Highest Enemy Value,
 	// 4 AVG friendly value, 5 AVG enemy value, 6 number of enemy tiles,
-	// 7 number of friendly tiles, 8 number of connections(connection values of
-	// enemy/player)
+	// 7 number of friendly tiles, 8 connections(how many connections move has of
+	// enemy)
 
 	{
 		ArrayList<int[]> possibleMoves = new ArrayList<int[]>();
@@ -145,7 +164,7 @@ public class TeamThreeStar implements Player {
 		return possibleMoves;
 	}
 
-	private static int[] heuristic(ArrayList<int[]> possibleMoves) {
+	private static int[] heuristic2(ArrayList<int[]> possibleMoves) {
 		int[] bestMove = new int[8];
 		int bestMoveScore = 0;
 
@@ -165,7 +184,7 @@ public class TeamThreeStar implements Player {
 		return move;
 	}
 
-	private static int[] heuristic2(ArrayList<int[]> possibleMoves) {
+	private static int[] heuristic(ArrayList<int[]> possibleMoves) {
 		int[] bestMove = new int[8];
 		int bestMoveScore = 0;
 
