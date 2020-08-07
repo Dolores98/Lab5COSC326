@@ -3,42 +3,16 @@ package seqtournament;
 import sequencium.*;
 
 public class SequenciumApp {
-	public static void main(String []args)
-	{
-		Game game = new Game(new TeamThreeStar(2), new TeamThreeStar());
-		game.reportOutcome();
-		game.run();
-		System.out.println(game.displayBoard());
+	public static void main(String[] args) {
 
+		// System.out.println(game.displayBoard());
+
+		for (int i = 0; i < 10; i++) {
+			Game game = new Game(new TeamThreeStar(), new RandomPlayer());
+			game.run();
+			game.reportOutcome();
+			//System.out.println(game.getLog());
+		}
 	}
-	
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
