@@ -59,13 +59,19 @@ public class TeamThreeStar implements Player {
 		return false;
 	}
 
-	public int[] makeMove(int[][] board) {
+	public void printBoardState(int[][] board){
 		for (int[] is : board) {
 			for (int iss : is) {
 				System.out.print(iss);
 			}
 			System.out.println();
 		}
+	}
+
+	public int[] makeMove(int[][] board) {
+		
+		printBoardState(board);
+		System.out.println();
 
 		if (initalLoop) {
 			int[] initialMoves = new int[3];
