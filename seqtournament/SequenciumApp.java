@@ -8,9 +8,9 @@ public class SequenciumApp {
 		// System.out.println(game.displayBoard());
 
 		for (int i = 0; i < 10; i++) {
-			Game game = new Game(new TeamThreeStar(), new RandomPlayer());
+			Game game = new Game(new TeamThreeStar(3), new TeamThreeStar());
 			game.run();
-			game.reportOutcome();
+			//game.reportOutcome();
 			//System.out.println(game.getLog());
 		}
 	}
