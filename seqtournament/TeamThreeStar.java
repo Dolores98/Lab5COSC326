@@ -222,7 +222,7 @@ public class TeamThreeStar implements Player {
 
 		for (int i = 0; i < possibleMoves.size(); i++) {
 			int[] move = possibleMoves.get(i);
-			int moveScore = move[3] + move[6] - move[2];
+			int moveScore = move[3] + move[6];
 			if (moveScore <= bestMoveScore) {
 				bestMove = move;
 				bestMoveScore = moveScore;
