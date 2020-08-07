@@ -7,10 +7,11 @@ public class SequenciumApp {
 
 		// System.out.println(game.displayBoard());
 
-		for (int i = 0; i < 10; i++) {
-			Game game = new Game(new TeamThreeStar(), new RandomPlayer());
+		for (int i = 0; i < 1; i++) {
+			Game game = new Game(new TeamThreeStar(3), new TeamThreeStar(2));
 			game.run();
-			game.reportOutcome();
+			System.out.println(game.displayBoard());
+			// game.reportOutcome();
 			//System.out.println(game.getLog());
 		}
 	}
