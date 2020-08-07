@@ -51,19 +51,15 @@ public class TeamThreeStar implements Player {
 		}
 	}
 
-	public int[] diagonalCheck(int[][] board) {
+	public boolean diagonalCheck(int[][] board) {
 		if (board[3][3] == 0 && player1) {
-			int nextMove[] = { 3, 3, 4 };
-			checkDiag = false;
-			return nextMove;
+
+			return true;
 		} else if (board[2][2] == 0 && !player1) {
-			int nextMove[] = { 2, 2, 4 };
-			checkDiag = false;
-			return nextMove;
+
+			return true;
 		}
-		int nextMove[] = { 0, 0, 0 };
-		checkDiag = false;
-		return nextMove;
+		return false;
 	}
 
 	public int[] makeMove(int[][] board) {
@@ -78,10 +74,15 @@ public class TeamThreeStar implements Player {
 			int[] initialMoves = new int[3];
 			initialMoves = initialMove(board);
 			return initialMoves;
-		} else if (checkDiag) {
-			int[] nextMove = new int[3];
-			nextMove = diagonalCheck(board);
-			return nextMove;
+		} else if (diagonalCheck(board)) {
+
+			if (player1) {
+				int nextMove[] = { 3, 3, 4 };
+				return nextMove;
+			} else {
+				int nextMove[] = { 2, 2, 4 };
+				return nextMove;
+			}
 		} else {
 			int[] theMove = new int[3];
 
@@ -89,11 +90,11 @@ public class TeamThreeStar implements Player {
 
 			possibleMoves = getPossibleMoves(board);
 			switch (heuristicSwitch) {
-				case 0:
-					theMove = heuristic(possibleMoves);
-					break;
-				case 1:
+				case 2:
 					theMove = heuristic2(possibleMoves);
+					break;
+				case 3:
+					theMove = heuristic3(possibleMoves);
 					break;
 				default:
 					theMove = heuristic(possibleMoves);
@@ -162,6 +163,26 @@ public class TeamThreeStar implements Player {
 			}
 		}
 		return possibleMoves;
+	}
+
+	private static int[] heuristic3(ArrayList<int[]> possibleMoves) {
+		int[] bestMove = new int[8];
+		int bestMoveScore = 0;
+
+		for (int i = 0; i < possibleMoves.size(); i++) {
+			int[] move = possibleMoves.get(i);
+			int moveScore = move[3] + move[6];
+			if (moveScore <= bestMoveScore) {
+				bestMove = move;
+				bestMoveScore = moveScore;
+			}
+		}
+		int[] move = new int[3];
+		for (int i = 0; i < 3; i++) {
+			move[i] = bestMove[i];
+		}
+		move[2] += 1;
+		return move;
 	}
 
 	private static int[] heuristic2(ArrayList<int[]> possibleMoves) {
