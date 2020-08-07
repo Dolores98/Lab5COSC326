@@ -38,8 +38,7 @@ public class TeamThreeStar implements Player {
 		}
 	}
 
-	public int[] makeMove(int[][] board) 
-	{
+	public int[] makeMove(int[][] board) {
 		if (VERBOSE) {
 			for (int[] is : board) {
 				for (int iss : is) {
