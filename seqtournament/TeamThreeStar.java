@@ -5,7 +5,7 @@ import java.util.*;
 
 public class TeamThreeStar implements Player {
 
-	private boolean initalLoop = true;
+	private boolean initialLoop = true;
 	private boolean player1 = true;
 	private int count = 0;
 	private int heuristicSwitch;
@@ -31,7 +31,7 @@ public class TeamThreeStar implements Player {
 				return initialMove;
 			} else {
 				int initialMove[] = { 2, 2, 3 };
-				initalLoop = false;
+				initialLoop = false;
 				return initialMove;
 			}
 		} else {
@@ -42,7 +42,7 @@ public class TeamThreeStar implements Player {
 				return initialMove;
 			} else {
 				int initialMove[] = { 3, 3, 3 };
-				initalLoop = false;
+				initialLoop = false;
 				return initialMove;
 			}
 		}
@@ -73,7 +73,7 @@ public class TeamThreeStar implements Player {
 		// printBoardState(board);
 		// System.out.println();
 
-		if (initalLoop) {
+		if (initialLoop) {
 			int[] initialMoves = new int[3];
 			initialMoves = initialMove(board);
 			return initialMoves;
@@ -182,10 +182,11 @@ public class TeamThreeStar implements Player {
 				moveScore = move[7];
 			}
 
-			if (moveScore <= bestMoveScore && move[6] < 6) {
+			if (moveScore <= bestMoveScore || move[6] < 6) {
 				bestMove = move;
 				bestMoveScore = moveScore;
 			}
+
 		}
 		int[] move = new int[3];
 		for (int i = 0; i < 3; i++) {
