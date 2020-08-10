@@ -4,6 +4,7 @@ import sequencium.*;
 import java.util.*;
 
 public class TeamThreeStar implements Player {
+	private final boolean VERBOSE = true;
 
 	private boolean initialLoop = true;
 	private boolean player1 = true;
@@ -70,8 +71,10 @@ public class TeamThreeStar implements Player {
 
 	public int[] makeMove(int[][] board) {
 
-		printBoardState(board);
-		System.out.println();
+		if (VERBOSE) {
+			printBoardState(board);
+			System.out.println();
+		}
 
 		if (initialLoop) {
 			int[] initialMoves = new int[3];
@@ -252,7 +255,7 @@ public class TeamThreeStar implements Player {
 
 		for (int i = 0; i < possibleMoves.size(); i++) {
 			int[] move = possibleMoves.get(i);
-			int moveScore = move[3]*100 + move[6] - move[2]*2 + (move[9] - move[8]*2) / 5;
+			int moveScore = move[3] * 5 + move[6] - move[2] + (move[9] - move[8]) / 2;
 			if (moveScore <= bestMoveScore) {
 				bestMove = move;
 				bestMoveScore = moveScore;
@@ -272,7 +275,7 @@ public class TeamThreeStar implements Player {
 
 		for (int i = 0; i < possibleMoves.size(); i++) {
 			int[] move = possibleMoves.get(i);
-			int moveScore = move[3]*5 + move[6] - move[2] + (move[9]- move[8]) / 2;
+			int moveScore = move[3] * 5 + move[6] - move[2] + (move[9] - move[8]) / 2;
 			if (moveScore <= bestMoveScore) {
 				bestMove = move;
 				bestMoveScore = moveScore;
