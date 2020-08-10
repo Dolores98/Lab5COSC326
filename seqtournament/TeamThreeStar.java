@@ -115,7 +115,7 @@ public class TeamThreeStar implements Player {
 	// 0 rowIndex, 1 colIndex, 2 Highest Possible Value, 3 Highest Enemy Value,
 	// 4 AVG friendly value, 5 AVG enemy value, 6 number of enemy tiles,
 	// 7 number of friendly tiles, 8 connections(how many connections move has of
-	// enemy)
+	// ally), 9 enemy connections
 
 	{
 		ArrayList<int[]> possibleMoves = new ArrayList<int[]>();
@@ -133,6 +133,8 @@ public class TeamThreeStar implements Player {
 					int avgEnemy = 0;
 					int friendlyCount = 0;
 					int enemyCount = 0;
+					int allyConnections = 0;
+					int enemyConnections = 0;
 
 					neighbours = Utilities.neighbours(i, j, boardRows, boardCols);
 					for (int k = 0; k < neighbours.size(); k++) {
@@ -141,12 +143,33 @@ public class TeamThreeStar implements Player {
 						int value = board[coordinate[0]][coordinate[1]];
 
 						if (value > 0) {
+							ArrayList<int[]> allyNeighbours = new ArrayList<int[]>(
+									Utilities.neighbours(coordinate[0], coordinate[1], boardRows, boardCols));
+							for (int l = 0; l < allyNeighbours.size(); l++) {
+								int[] coordinate2 = allyNeighbours.get(l);
+								int value2 = board[coordinate2[0]][coordinate2[1]];
+
+								if (value2 > 0) {
+									allyConnections += 1;
+								}
+							}
 							friendlyCount += 1;
 							avgFriendly += value;
 							if (value > highestValue) {
 								highestValue = value;
 							}
 						} else if (value < 0) {
+							ArrayList<int[]> enemyNeighbours = new ArrayList<int[]>(
+									Utilities.neighbours(coordinate[0], coordinate[1], boardRows, boardCols));
+							for (int l = 0; l < enemyNeighbours.size(); l++) {
+								int[] coordinate2 = enemyNeighbours.get(l);
+								int value2 = board[coordinate2[0]][coordinate2[1]];
+
+								if (value2 < 0) {
+									enemyConnections += 1;
+								}
+							}
+
 							enemyCount += 1;
 							avgEnemy += value;
 							if (value < highestEnemy) {
@@ -162,7 +185,7 @@ public class TeamThreeStar implements Player {
 							avgEnemy = avgEnemy / enemyCount;
 						}
 						int[] move = { i, j, highestValue, highestEnemy, avgFriendly, avgEnemy, friendlyCount,
-								enemyCount };
+								enemyCount, allyConnections, enemyConnections};
 						possibleMoves.add(move);
 					}
 				}
@@ -172,7 +195,7 @@ public class TeamThreeStar implements Player {
 	}
 
 	private static int[] heuristic4(ArrayList<int[]> possibleMoves) {
-		int[] bestMove = new int[8];
+		int[] bestMove = new int[9];
 		int bestMoveScore = 0;
 
 		for (int i = 0; i < possibleMoves.size(); i++) {
@@ -197,7 +220,7 @@ public class TeamThreeStar implements Player {
 	}
 
 	private static int[] heuristic3(ArrayList<int[]> possibleMoves) {
-		int[] bestMove = new int[8];
+		int[] bestMove = new int[9];
 		int bestMoveScore = 0;
 
 		for (int i = 0; i < possibleMoves.size(); i++) {
@@ -221,12 +244,12 @@ public class TeamThreeStar implements Player {
 	}
 
 	private static int[] heuristic2(ArrayList<int[]> possibleMoves) {
-		int[] bestMove = new int[8];
+		int[] bestMove = new int[9];
 		int bestMoveScore = 0;
 
 		for (int i = 0; i < possibleMoves.size(); i++) {
 			int[] move = possibleMoves.get(i);
-			int moveScore = move[3] + move[6] - move[2];
+			int moveScore = move[3] + move[6] - move[2] + (move[9] - move[8]) / 2;
 			if (moveScore <= bestMoveScore) {
 				bestMove = move;
 				bestMoveScore = moveScore;
@@ -241,7 +264,7 @@ public class TeamThreeStar implements Player {
 	}
 
 	private static int[] heuristic(ArrayList<int[]> possibleMoves) {
-		int[] bestMove = new int[8];
+		int[] bestMove = new int[9];
 		int bestMoveScore = 0;
 
 		for (int i = 0; i < possibleMoves.size(); i++) {
