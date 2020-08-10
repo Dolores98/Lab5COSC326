@@ -8,7 +8,7 @@ public class SequenciumApp {
 		for (int i = 0; i < 1; i++) {
 			// Game game = new Game(new TeamThreeStar(3), new TeamThreeStar(2));
 			// Game game = new Game(new TeamThreeStar(2), new TeamThreeStar(3));
-			Game game = new Game(new TeamThreeStar(4), new TeamThreeStar(2));
+			Game game = new Game(new TeamThreeStar(5), new TeamThreeStar(4));
 
 
 			game.run();
