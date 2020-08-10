@@ -70,8 +70,8 @@ public class TeamThreeStar implements Player {
 
 	public int[] makeMove(int[][] board) {
 
-		printBoardState(board);
-		System.out.println();
+		// printBoardState(board);
+		// System.out.println();
 
 		if (initialLoop) {
 			int[] initialMoves = new int[3];
@@ -200,15 +200,15 @@ public class TeamThreeStar implements Player {
 	private static int[] heuristic4(ArrayList<int[]> possibleMoves) {
 		int[] bestMove = new int[9];
 		int bestMoveScore = 0;
-
+		bestMove = possibleMoves.get(0);
 		for (int i = 0; i < possibleMoves.size(); i++) {
 			int[] move = possibleMoves.get(i);
 			int moveScore = move[3] + move[6] - move[2];
 			if (move[6] == 0) {
-				moveScore = move[7];
+				moveScore = -move[7];
 			}
 
-			if (moveScore <= bestMoveScore || move[6] < 6) {
+			if (moveScore <= bestMoveScore && move[6] < 6) {
 				bestMove = move;
 				bestMoveScore = moveScore;
 			}
@@ -225,34 +225,36 @@ public class TeamThreeStar implements Player {
 	private static int[] heuristic3(ArrayList<int[]> possibleMoves) {
 		int[] bestMove = new int[9];
 		int bestMoveScore = 0;
+		bestMove = possibleMoves.get(0);
 
 		for (int i = 0; i < possibleMoves.size(); i++) {
 			int[] move = possibleMoves.get(i);
 			int moveScore = move[3] + move[6] - move[7];
 			if (move[6] == 0) {
-				moveScore = move[7];
+				moveScore = -move[7];
 			}
 
 			if (moveScore <= bestMoveScore && move[6] < 6) {
 				bestMove = move;
 				bestMoveScore = moveScore;
+			} else {
 			}
 		}
-		int[] move = new int[3];
+		int[] moved = new int[3];
 		for (int i = 0; i < 3; i++) {
-			move[i] = bestMove[i];
+			moved[i] = bestMove[i];
 		}
-		move[2] += 1;
-		return move;
+		moved[2] += 1;
+		return moved;
 	}
 
 	private static int[] heuristic2(ArrayList<int[]> possibleMoves) {
 		int[] bestMove = new int[9];
 		int bestMoveScore = 0;
-
+		bestMove = possibleMoves.get(0);
 		for (int i = 0; i < possibleMoves.size(); i++) {
 			int[] move = possibleMoves.get(i);
-			int moveScore = move[3]*100 + move[6] - move[2]*2 + (move[9] - move[8]*2) / 5;
+			int moveScore = move[3] * 100 + move[6] - move[2] * 2 + (move[9] - move[8] * 2) / 5;
 			if (moveScore <= bestMoveScore) {
 				bestMove = move;
 				bestMoveScore = moveScore;
@@ -270,9 +272,10 @@ public class TeamThreeStar implements Player {
 		int[] bestMove = new int[9];
 		int bestMoveScore = 0;
 
+		bestMove = possibleMoves.get(0);
 		for (int i = 0; i < possibleMoves.size(); i++) {
 			int[] move = possibleMoves.get(i);
-			int moveScore = move[3]*5 + move[6] - move[2] + (move[9]- move[8]) / 2;
+			int moveScore = move[3] * 5 + move[6] - move[2] + (move[9] - move[8]) / 2;
 			if (moveScore <= bestMoveScore) {
 				bestMove = move;
 				bestMoveScore = moveScore;
