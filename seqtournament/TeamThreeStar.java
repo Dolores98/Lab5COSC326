@@ -70,8 +70,8 @@ public class TeamThreeStar implements Player {
 
 	public int[] makeMove(int[][] board) {
 
-		// printBoardState(board);
-		// System.out.println();
+		printBoardState(board);
+		System.out.println();
 
 		if (initialLoop) {
 			int[] initialMoves = new int[3];
@@ -101,6 +101,9 @@ public class TeamThreeStar implements Player {
 					break;
 				case 4:
 					theMove = heuristic4(possibleMoves);
+					break;
+				case 5:
+					theMove = heuristic5(possibleMoves);
 					break;
 				default:
 					theMove = heuristic(possibleMoves);
@@ -185,7 +188,7 @@ public class TeamThreeStar implements Player {
 							avgEnemy = avgEnemy / enemyCount;
 						}
 						int[] move = { i, j, highestValue, highestEnemy, avgFriendly, avgEnemy, friendlyCount,
-								enemyCount, allyConnections, enemyConnections};
+								enemyCount, allyConnections, enemyConnections };
 						possibleMoves.add(move);
 					}
 				}
@@ -249,7 +252,27 @@ public class TeamThreeStar implements Player {
 
 		for (int i = 0; i < possibleMoves.size(); i++) {
 			int[] move = possibleMoves.get(i);
-			int moveScore = move[3] + move[6] - move[2] + (move[9] - move[8]) / 2;
+			int moveScore = move[3]*100 + move[6] - move[2]*2 + (move[9] - move[8]*2) / 5;
+			if (moveScore <= bestMoveScore) {
+				bestMove = move;
+				bestMoveScore = moveScore;
+			}
+		}
+		int[] move = new int[3];
+		for (int i = 0; i < 3; i++) {
+			move[i] = bestMove[i];
+		}
+		move[2] += 1;
+		return move;
+	}
+
+	private static int[] heuristic5(ArrayList<int[]> possibleMoves) {
+		int[] bestMove = new int[9];
+		int bestMoveScore = 0;
+
+		for (int i = 0; i < possibleMoves.size(); i++) {
+			int[] move = possibleMoves.get(i);
+			int moveScore = move[3]*5 + move[6] - move[2] + (move[9]- move[8]) / 2;
 			if (moveScore <= bestMoveScore) {
 				bestMove = move;
 				bestMoveScore = moveScore;
