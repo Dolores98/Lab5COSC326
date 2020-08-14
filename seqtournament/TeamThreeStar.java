@@ -5,129 +5,123 @@ import java.util.ArrayList;
 import sequencium.Player;
 import sequencium.Utilities;
 
-/*
+/**
  * A player for Sequencium, designed to win.
  * 
- * @author Elbert Alcantara, Chris Groenewegen, John KJ Kim
+ * @author Elbert Alcantara
+ * @author Christopher Groenewegen
+ * @author John KJ Kim
  */
 public class TeamThreeStar implements Player {
 	// The initial loop takes our player diagonally towards the center not opposed.
 	private boolean initialLoop = true;
 	// Determines if TeamThreStar is player one(true) or two(false).
 	private boolean player1 = true;
-	// Keeping track of diagonal position.
-	private int count = 0;
 	private int heuristicSwitch;
 
+	// Initial positions of the board based on player one or not.
+	private int initialPosX;
+	private int initialPosY;
+
+	private static final boolean VERBOSE = true;
+
+	/**
+	 * Replaces default constructor & sets the heuristicSwitch to default state.
+	 */
 	public TeamThreeStar() {
-		this.heuristicSwitch = 0;
+		this.heuristicSwitch = 5;
 	}
 
+	/**
+	 * Sets heuristicSwitch to target value.
+	 * 
+	 * @param heuristicSwitch Determines which heuristic to use for player.
+	 */
 	public TeamThreeStar(int heuristicSwitch) {
 		this.heuristicSwitch = heuristicSwitch;
 	}
 
-	/*
-	 * @return String: returns our team name
+	/**
+	 * @return String returns our team name
 	 */
 	public String getName() {
 		return "Team Three Star";
 	}
 
-	/*
-	 * This is a function that takes the player to the center of the board every
-	 * game in the start to gain more space.
+	/**
+	 * This function simply determines if we continue to move diagonally until an
+	 * invalid move.
 	 * 
-	 * @param int[][]: takes in the current game board
+	 * @param board Takes the current board
 	 * 
-	 * @return int[]: returns an initial diagonal move to take in more space
-	 */
-	public int[] initialMove(int[][] board) {
-		// We also determine whether we are player one or two in this function.
-		// If we start at coordinates 0,0, then we are player one, else two.
-		if (board[0][0] == 1) {
-			player1 = true;
-			if (count == 0) {
-				int initialMove[] = { 1, 1, 2 };
-				count++;
-				return initialMove;
-			} else {
-				int initialMove[] = { 2, 2, 3 };
-				initialLoop = false;
-				return initialMove;
-			}
-		} else {
-			player1 = false;
-			if (count == 0) {
-				int initialMove[] = { 4, 4, 2 };
-				count++;
-				return initialMove;
-			} else {
-				int initialMove[] = { 3, 3, 3 };
-				initialLoop = false;
-				return initialMove;
-			}
-		}
-	}
-
-	/*
-	 * This function simply determines if we can keep moving diagonally one more
-	 * time once we reach the center.
-	 * 
-	 * @param int[][]: takes the current board
-	 * 
-	 * @return boolean: true if we can move diagonally after we reach the center,
-	 * else false
+	 * @return True if we can move diagonally, else false
 	 */
 	public boolean diagonalCheck(int[][] board) {
-		if (board[3][3] == 0 && player1) {
+
+		if (player1 && board[initialPosX + 1][initialPosY + 1] == 0) {
 
 			return true;
-		} else if (board[2][2] == 0 && !player1) {
-
+		} else if (!player1 && board[initialPosX - 1][initialPosY - 1] == 0) {
 			return true;
+		} else {
+			return false;
 		}
-		return false;
 	}
 
+	/**
+	 * Prints the board state.
+	 * 
+	 * @param Board current state of the board.
+	 */
 	public void printBoardState(int[][] board) {
 		for (int[] is : board) {
 			for (int iss : is) {
-				System.out.print(iss);
+				System.out.print(iss + "  ");
 			}
 			System.out.println();
 		}
 	}
 
-	/*
+	/**
 	 * This function chooses a move for player TeamThreeStar depending on the
-	 * current state of the board. It will use initialMove function initially until
-	 * it reaches the center at which point it will check if it can move diagonally
-	 * one more time (if enemy hasn't occupied the opposing diagonal square at the
-	 * center). Then it will use our heuristic function to determine the next move
+	 * current state of the board. It will use the diagonal check function to
+	 * continue to move diagonally until it no longer can.
+	 * Then it will use our heuristic function to determine the next move
 	 * for the rest of the game.
 	 * 
-	 * @param int[][]:takes in the current state of the board
+	 * @param board The current state of the board.
 	 * 
-	 * @return int[]:returns the move chosen
+	 * @return Returns the move chosen.
 	 */
 	public int[] makeMove(int[][] board) {
+		if (board[0][0] == 1 && initialLoop == true) {
+			initialPosX = 0;
+			initialPosY = 0;
+			player1 = true;
+		} else if (initialLoop == true) {
+			initialPosX = board.length;
+			initialPosY = board[0].length;
+			player1 = false;
+			if(VERBOSE)System.out.println("x" + initialPosX);
+			if(VERBOSE)System.out.println("y" + initialPosY);
+		}
+		initialLoop = false;
+		 if(VERBOSE)printBoardState(board);
+		 if(VERBOSE)System.out.println();
 
-		// printBoardState(board);
-		// System.out.println();
-
-		if (initialLoop) {
-			int[] initialMoves = new int[3];
-			initialMoves = initialMove(board);
-			return initialMoves;
-		} else if (diagonalCheck(board)) {
-
+		if (diagonalCheck(board)) {
 			if (player1) {
-				int nextMove[] = { 3, 3, 4 };
-				return nextMove;
+				int[] initialMoves = new int[3];
+				initialMoves[0] = initialPosX + 1;
+				initialMoves[1] = initialPosY + 1;
+				initialMoves[2] = board[initialPosX][initialPosY] + 1;
+				return initialMoves;
 			} else {
-				int nextMove[] = { 2, 2, 4 };
-				return nextMove;
+				int[] initialMoves = new int[3];
+				initialMoves[0] = initialPosX - 1;
+				initialMoves[1] = initialPosY - 1;
+				initialMoves[2] = board[initialPosX][initialPosY] - 1;
+				return initialMoves;
 			}
 		} else {
 			int[] theMove = new int[3];
@@ -136,38 +130,37 @@ public class TeamThreeStar implements Player {
 
 			possibleMoves = getPossibleMoves(board);
 			switch (heuristicSwitch) {
-			case 2:
-				theMove = heuristic2(possibleMoves);
-				break;
-			case 3:
-				theMove = heuristic3(possibleMoves);
-				break;
-			case 4:
-				theMove = heuristic4(possibleMoves);
-				break;
-			case 5:
-				theMove = heuristic5(possibleMoves);
-				break;
-			default:
-				theMove = heuristic(possibleMoves);
-				break;
+				case 2:
+					theMove = heuristic2(possibleMoves);
+					break;
+				case 3:
+					theMove = heuristic3(possibleMoves);
+					break;
+				case 4:
+					theMove = heuristic4(possibleMoves);
+					break;
+				case 5:
+					theMove = heuristic5(possibleMoves);
+					break;
+				default:
+					theMove = heuristic(possibleMoves);
+					break;
 			}
 
 			return theMove;
 		}
 	}
 
-	/*
+	/**
 	 * This function finds all possible moves for player TeamThreeStar in the
 	 * current state of the board and at the same time calculates values which could
 	 * be used in the heuristic function to determine which move is considered the
 	 * most optimal.
 	 * 
-	 * @param int[][]: takes in the current state of the board
+	 * @param baord Takes in the current state of the board
 	 * 
-	 * @return ArrayList<int[]>: returns a list of possible moves, the list also
-	 * contains useful information for the heuristic function, these are listed
-	 * below.
+	 * @return Returns a list of possible moves, the list also contains useful
+	 *         information for the heuristic function, these are listed below.
 	 */
 	private static ArrayList<int[]> getPossibleMoves(int[][] board)
 	// The following list are the information stored in each possible move array.
@@ -265,10 +258,13 @@ public class TeamThreeStar implements Player {
 		return possibleMoves;
 	}
 
-	/*
-	 * @param int[]: takes in all possible moves in the current state of the board
+	/**
+	 * Calculates the optimum move for the player agent to make based on the current state of the board.
 	 * 
-	 * @return int[]: returns what it believes is the optimal move.
+	 * @param possibleMoves Takes in a list of all possible moves in the current
+	 *                      state of the board.
+	 * 
+	 * @return Returns the optimal move based on its facts.
 	 */
 	private static int[] heuristic4(ArrayList<int[]> possibleMoves) {
 		int[] bestMove = new int[9];
@@ -295,10 +291,13 @@ public class TeamThreeStar implements Player {
 		return move;
 	}
 
-	/*
-	 * @param int[]: takes in all possible moves in the current state of the board
+	/**
+	 * Calculates the optimum move for the player agent to make based on the current state of the board.
 	 * 
-	 * @return int[]: returns what it believes is the optimal move.
+	 * @param possibleMoves Takes in a list of all possible moves in the current
+	 *                      state of the board.
+	 * 
+	 * @return Returns the optimal move based on its facts.
 	 */
 	private static int[] heuristic3(ArrayList<int[]> possibleMoves) {
 		int[] bestMove = new int[9];
@@ -318,7 +317,7 @@ public class TeamThreeStar implements Player {
 			} else if (moveScore == bestMoveScore) {
 				double randomNumber = Math.random();
 				if (randomNumber < 0.50) {
-					System.out.println(randomNumber);
+					if(VERBOSE)System.out.println(randomNumber);
 					bestMove = move;
 					bestMoveScore = moveScore;
 				}
@@ -332,10 +331,13 @@ public class TeamThreeStar implements Player {
 		return moved;
 	}
 
-	/*
-	 * @param int[]: takes in all possible moves in the current state of the board
+	/**
+	 * Calculates the optimum move for the player agent to make based on the current state of the board.
 	 * 
-	 * @return int[]: returns what it believes is the optimal move.
+	 * @param possibleMoves Takes in a list of all possible moves in the current
+	 *                      state of the board.
+	 * 
+	 * @return Returns the optimal move based on its facts.
 	 */
 	private static int[] heuristic2(ArrayList<int[]> possibleMoves) {
 		int[] bestMove = new int[9];
@@ -357,10 +359,13 @@ public class TeamThreeStar implements Player {
 		return move;
 	}
 
-	/*
-	 * @param int[]: takes in all possible moves in the current state of the board
+	/**
+	 * Calculates the optimum move for the player agent to make based on the current state of the board.
 	 * 
-	 * @return int[]: returns what it believes is the optimal move.
+	 * @param possibleMoves Takes in a list of all possible moves in the current
+	 *                      state of the board.
+	 * 
+	 * @return Returns the optimal move based on its facts.
 	 */
 	private static int[] heuristic5(ArrayList<int[]> possibleMoves) {
 		int[] bestMove = new int[9];
@@ -373,6 +378,13 @@ public class TeamThreeStar implements Player {
 			if (moveScore <= bestMoveScore) {
 				bestMove = move;
 				bestMoveScore = moveScore;
+			} else if (moveScore == bestMoveScore) {
+				double randomNumber = Math.random();
+				if (randomNumber < 0.50) {
+					if(VERBOSE)System.out.println(randomNumber);
+					bestMove = move;
+					bestMoveScore = moveScore;
+				}
 			}
 		}
 		int[] move = new int[3];
@@ -383,10 +395,13 @@ public class TeamThreeStar implements Player {
 		return move;
 	}
 
-	/*
-	 * @param int[]: takes in all possible moves in the current state of the board
+	/**
+	 * Calculates the optimum move for the player agent to make based on the current state of the board.
 	 * 
-	 * @return int[]: returns what it believes is the optimal move.
+	 * @param possibleMoves Takes in a list of all possible moves in the current
+	 *                      state of the board.
+	 * 
+	 * @return Returns the optimal move based on its facts.
 	 */
 	private static int[] heuristic(ArrayList<int[]> possibleMoves) {
 		int[] bestMove = new int[9];
