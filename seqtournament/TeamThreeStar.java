@@ -23,7 +23,7 @@ public class TeamThreeStar implements Player {
 	private int initialPosX;
 	private int initialPosY;
 
-	private static final boolean VERBOSE = true;
+	private static final boolean VERBOSE = false;
 
 	/**
 	 * Replaces default constructor & sets the heuristicSwitch to default state.
